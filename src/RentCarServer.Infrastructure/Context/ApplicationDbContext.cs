@@ -2,15 +2,19 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RentCarServer.Domain.Abstractions;
+using RentCarServer.Domain.Users;
 using System.Security.Claims;
+using GenericRepository;
 
 namespace RentCarServer.Infrastructure.Context
 {
-    internal sealed class ApplicationDbContext : DbContext
+    internal sealed class ApplicationDbContext : DbContext,IUnitOfWork
     {
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
         }
+        public DbSet<User> Users { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
@@ -31,7 +35,7 @@ namespace RentCarServer.Infrastructure.Context
             var entries = ChangeTracker.Entries<Entity>();
 
             HttpContextAccessor httpContextAccessor = new();
-            string userIdString =
+            string userIdString =   // "97787d8e-eb72-4538-a59b-9a1e21c95965"; ilk Kayıt  olmadığı için ilk güidi manuel yap. 
                 httpContextAccessor
                 .HttpContext!
                 .User
