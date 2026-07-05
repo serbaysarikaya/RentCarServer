@@ -11,7 +11,6 @@ namespace RentCarServer.WebAPI
             var userRepository = scoped.ServiceProvider.GetRequiredService<IUserRepository>();
             var unitOfWork = scoped.ServiceProvider.GetRequiredService<IUnitOfWork>();
 
-
             if(!(await userRepository.AnyAsync(p=>p.UserName.value == "admin")))
             {
                 FirstName firstName = new("Serbay");

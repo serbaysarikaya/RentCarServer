@@ -1,11 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using RentCarServer.Application.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RentCarServer.Infrastructure.Services
 {
@@ -13,8 +8,11 @@ namespace RentCarServer.Infrastructure.Services
     {
         public Guid GetUserId()
         {
-           var httpcontext = httpContextAccessor.HttpContext;
-           
+            var httpcontext = httpContextAccessor.HttpContext;
+            if (httpcontext == null)
+            {
+                throw new ArgumentNullException("Context bilgisi bunumamadı."); ;
+            }
             var claims = httpcontext.User.Claims;
             string? userId = claims.FirstOrDefault(i => i.Type == ClaimTypes.NameIdentifier)?.Value;
             if (userId == null)
@@ -23,10 +21,10 @@ namespace RentCarServer.Infrastructure.Services
             }
             try
             {
-                            Guid id = Guid.Parse(userId);
+                Guid id = Guid.Parse(userId);
                 return id;
             }
-            catch (Exception )
+            catch (Exception)
             {
 
                 throw new ArgumentException("Kullanıcı id uygun formatta değildir.");

@@ -3,8 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RentCarServer.Infrastructure.Context;
+using RentCarServer.Infrastructure.Options;
 using Scrutor;
-using TS.MediatR;
 
 namespace RentCarServer.Infrastructure
 {
@@ -13,7 +13,13 @@ namespace RentCarServer.Infrastructure
 
         public static IServiceCollection Addnfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
+            services.Configure<JwtOptions>(configuration.GetSection("Jwt"));
+            services.ConfigureOptions<JwtSetupOptions>();
+            services.AddAuthentication().AddJwtBearer();
+            services.AddAuthorization();
+
             services.AddHttpContextAccessor();
+
             services.AddDbContext<ApplicationDbContext>(opt =>
             {
                 string con = configuration.GetConnectionString("SqlServer")!;
@@ -33,8 +39,8 @@ namespace RentCarServer.Infrastructure
               publicOnly: false)
           .UsingRegistrationStrategy(RegistrationStrategy.Skip)
           .AsImplementedInterfaces()
-          .WithScopedLifetime()
-      );
+          .WithScopedLifetime());
+
             return services;
         }
     }
