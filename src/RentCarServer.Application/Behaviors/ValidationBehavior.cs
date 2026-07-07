@@ -45,7 +45,6 @@ namespace RentCarServer.Application.Behaviors
                 });
                 throw new ValidationException(errors);
             }
-
             return await next();
         }
     }
