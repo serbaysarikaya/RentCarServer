@@ -20,8 +20,8 @@ namespace RentCarServer.Infrastructure.Services
             List<Claim> claims = new List<Claim>()
             {
                 new Claim(ClaimTypes.NameIdentifier,user.Id),
-                new Claim("fullName",user.FullName.value),
-                new Claim("email",user.Email.value)
+                new Claim("fullName",user.FullName.Value),
+                new Claim("email",user.Email.Value)
             };
 
             SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes(options.Value.SecretKey));

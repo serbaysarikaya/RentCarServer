@@ -35,13 +35,18 @@ namespace RentCarServer.Infrastructure.Context
             var entries = ChangeTracker.Entries<Entity>();
 
             HttpContextAccessor httpContextAccessor = new();
-            string userIdString =   // "97787d8e-eb72-4538-a59b-9a1e21c95965"; ilk Kayıt  olmadığı için ilk güidi manuel yap. 
+            string? userIdString =   // "97787d8e-eb72-4538-a59b-9a1e21c95965"; ilk Kayıt  olmadığı için ilk güidi manuel yap. 
                 httpContextAccessor
                 .HttpContext!
                 .User
                 .Claims
-                .First(p => p.Type == ClaimTypes.NameIdentifier)
+                .FirstOrDefault(p => p.Type == ClaimTypes.NameIdentifier)?
                 .Value;
+
+            if(userIdString is null)
+            {
+                return base.SaveChangesAsync(cancellationToken);
+            }
 
             Guid userId = Guid.Parse(userIdString);
             IdentityId identityId = new(userId);

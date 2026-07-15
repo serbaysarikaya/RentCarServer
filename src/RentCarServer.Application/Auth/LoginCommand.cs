@@ -24,8 +24,8 @@ public sealed class LoginCommandHandler(
     public async Task<Result<string>> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
         var user = await userRepository.FirstOrDefaultAsync(p =>
-        p.Email.value == request.EmailOrUserName
-        || p.UserName.value == request.EmailOrUserName);
+        p.Email.Value == request.EmailOrUserName
+        || p.UserName.Value == request.EmailOrUserName);
 
         if (user == null)
         {

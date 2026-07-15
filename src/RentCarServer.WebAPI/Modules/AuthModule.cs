@@ -8,22 +8,24 @@ public static class AuthModule
 {
     public static void MapAuth(this IEndpointRouteBuilder builder)
     {
-        var app = builder.MapGroup("/auth").RequireRateLimiting("login-fixed");
+        var app = builder.MapGroup("/auth");
 
         app.MapPost("/login",
             async (LoginCommand request, ISender sender, CancellationToken cancellationToken) =>
             {
                 var res = await sender.Send(request, cancellationToken);
                 return res.IsSuccessful ? Results.Ok(res) : Results.InternalServerError(res);
-            }).
-            Produces<Result<string>>(); // Moved .Produces to be chained to MapPost
+            })
+            .Produces<Result<string>>()
+            .RequireRateLimiting("login-fixed"); // Moved .Produces to be chained to MapPost
 
         app.MapPost("/forgot-password/{email}",
             async (string email, ISender sender, CancellationToken cancellationToken) =>
             {
                 var res = await sender.Send(new ForgotPasswordCommand(email), cancellationToken);
                 return res.IsSuccessful ? Results.Ok(res) : Results.InternalServerError(res);
-            }).
-            Produces<Result<string>>();
+            })
+            .Produces<Result<string>>()
+            .RequireRateLimiting("forgot-password-fixed");
     }
 }

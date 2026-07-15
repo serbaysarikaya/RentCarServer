@@ -1,2 +1,2 @@
-﻿public sealed record FullName(string value);
+﻿public sealed record FullName(string Value);
 

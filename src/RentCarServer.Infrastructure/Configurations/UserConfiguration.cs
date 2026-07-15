@@ -15,6 +15,9 @@ namespace RentCarServer.Infrastructure.Configurations
             builder.OwnsOne(x => x.Email);
             builder.OwnsOne(x => x.UserName);
             builder.OwnsOne(x => x.Password);
+            builder.OwnsOne(x => x.ForgotPasswordId);
+            builder.OwnsOne(x => x.ForgotPasswordDate);
+            builder.OwnsOne(x => x.IsForgotPasswordComplated);
 
         }
     }

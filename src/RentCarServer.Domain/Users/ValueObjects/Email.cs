@@ -1,2 +1,2 @@
-﻿public sealed record Email(string value);
+﻿public sealed record Email(string Value);
 
