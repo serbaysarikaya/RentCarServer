@@ -12,8 +12,8 @@ using RentCarServer.Infrastructure.Context;
 namespace RentCarServer.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260714210311_i_added_forgot_password_field_to_user_table")]
-    partial class i_added_forgot_password_field_to_user_table
+    [Migration("20260716230508_i_chanded_IsForgotPasswordComplated_field_on_CheckForgotPasswordCode2")]
+    partial class i_chanded_IsForgotPasswordComplated_field_on_CheckForgotPasswordCode2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -66,7 +66,7 @@ namespace RentCarServer.Infrastructure.Migrations
                             b1.Property<Guid>("UserId")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<string>("value")
+                            b1.Property<string>("Value")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(MAX)");
 
@@ -83,25 +83,9 @@ namespace RentCarServer.Infrastructure.Migrations
                             b1.Property<Guid>("UserId")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<string>("value")
+                            b1.Property<string>("Value")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(MAX)");
-
-                            b1.HasKey("UserId");
-
-                            b1.ToTable("Users");
-
-                            b1.WithOwner()
-                                .HasForeignKey("UserId");
-                        });
-
-                    b.OwnsOne("ForgotPasswordDate", "ForgotPasswordDate", b1 =>
-                        {
-                            b1.Property<Guid>("UserId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<DateTimeOffset>("Value")
-                                .HasColumnType("datetimeoffset");
 
                             b1.HasKey("UserId");
 
@@ -127,12 +111,28 @@ namespace RentCarServer.Infrastructure.Migrations
                                 .HasForeignKey("UserId");
                         });
 
+                    b.OwnsOne("ForgotPasswordDate", "ForgotPasswordDate", b1 =>
+                        {
+                            b1.Property<Guid>("UserId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<DateTimeOffset>("Value")
+                                .HasColumnType("datetimeoffset");
+
+                            b1.HasKey("UserId");
+
+                            b1.ToTable("Users");
+
+                            b1.WithOwner()
+                                .HasForeignKey("UserId");
+                        });
+
                     b.OwnsOne("FullName", "FullName", b1 =>
                         {
                             b1.Property<Guid>("UserId")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<string>("value")
+                            b1.Property<string>("Value")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(MAX)");
 
@@ -165,7 +165,7 @@ namespace RentCarServer.Infrastructure.Migrations
                             b1.Property<Guid>("UserId")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<string>("value")
+                            b1.Property<string>("Value")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(MAX)");
 
@@ -203,7 +203,7 @@ namespace RentCarServer.Infrastructure.Migrations
                             b1.Property<Guid>("UserId")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<string>("value")
+                            b1.Property<string>("Value")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(MAX)");
 
@@ -221,14 +221,15 @@ namespace RentCarServer.Infrastructure.Migrations
                     b.Navigation("FirstName")
                         .IsRequired();
 
-                    b.Navigation("ForgotPasswordDate");
-
                     b.Navigation("ForgotPasswordCode");
+
+                    b.Navigation("ForgotPasswordDate");
 
                     b.Navigation("FullName")
                         .IsRequired();
 
-                    b.Navigation("IsForgotPasswordComplated");
+                    b.Navigation("IsForgotPasswordComplated")
+                        .IsRequired();
 
                     b.Navigation("LastName")
                         .IsRequired();

@@ -12,8 +12,8 @@ using RentCarServer.Infrastructure.Context;
 namespace RentCarServer.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260714210311_i_added_forgot_password_field_to_user_table")]
-    partial class i_added_forgot_password_field_to_user_table
+    [Migration("20260716214334_i_chanded_IsForgotPasswordComplated")]
+    partial class i_chanded_IsForgotPasswordComplated
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -66,7 +66,7 @@ namespace RentCarServer.Infrastructure.Migrations
                             b1.Property<Guid>("UserId")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<string>("value")
+                            b1.Property<string>("Value")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(MAX)");
 
@@ -83,7 +83,7 @@ namespace RentCarServer.Infrastructure.Migrations
                             b1.Property<Guid>("UserId")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<string>("value")
+                            b1.Property<string>("Value")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(MAX)");
 
@@ -132,7 +132,7 @@ namespace RentCarServer.Infrastructure.Migrations
                             b1.Property<Guid>("UserId")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<string>("value")
+                            b1.Property<string>("Value")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(MAX)");
 
@@ -165,7 +165,7 @@ namespace RentCarServer.Infrastructure.Migrations
                             b1.Property<Guid>("UserId")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<string>("value")
+                            b1.Property<string>("Value")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(MAX)");
 
@@ -203,7 +203,7 @@ namespace RentCarServer.Infrastructure.Migrations
                             b1.Property<Guid>("UserId")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<string>("value")
+                            b1.Property<string>("Value")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(MAX)");
 
@@ -228,7 +228,8 @@ namespace RentCarServer.Infrastructure.Migrations
                     b.Navigation("FullName")
                         .IsRequired();
 
-                    b.Navigation("IsForgotPasswordComplated");
+                    b.Navigation("IsForgotPasswordComplated")
+                        .IsRequired();
 
                     b.Navigation("LastName")
                         .IsRequired();

@@ -63,7 +63,7 @@ namespace RentCarServer.Infrastructure.Migrations
                             b1.Property<Guid>("UserId")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<string>("value")
+                            b1.Property<string>("Value")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(MAX)");
 
@@ -80,9 +80,25 @@ namespace RentCarServer.Infrastructure.Migrations
                             b1.Property<Guid>("UserId")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<string>("value")
+                            b1.Property<string>("Value")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(MAX)");
+
+                            b1.HasKey("UserId");
+
+                            b1.ToTable("Users");
+
+                            b1.WithOwner()
+                                .HasForeignKey("UserId");
+                        });
+
+                    b.OwnsOne("ForgotPasswordCode", "ForgotPasswordCode", b1 =>
+                        {
+                            b1.Property<Guid>("UserId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<Guid>("Value")
+                                .HasColumnType("uniqueidentifier");
 
                             b1.HasKey("UserId");
 
@@ -108,28 +124,12 @@ namespace RentCarServer.Infrastructure.Migrations
                                 .HasForeignKey("UserId");
                         });
 
-                    b.OwnsOne("ForgotPasswordId", "ForgotPasswordId", b1 =>
-                        {
-                            b1.Property<Guid>("UserId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<Guid>("Value")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.HasKey("UserId");
-
-                            b1.ToTable("Users");
-
-                            b1.WithOwner()
-                                .HasForeignKey("UserId");
-                        });
-
                     b.OwnsOne("FullName", "FullName", b1 =>
                         {
                             b1.Property<Guid>("UserId")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<string>("value")
+                            b1.Property<string>("Value")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(MAX)");
 
@@ -162,7 +162,7 @@ namespace RentCarServer.Infrastructure.Migrations
                             b1.Property<Guid>("UserId")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<string>("value")
+                            b1.Property<string>("Value")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(MAX)");
 
@@ -200,7 +200,7 @@ namespace RentCarServer.Infrastructure.Migrations
                             b1.Property<Guid>("UserId")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<string>("value")
+                            b1.Property<string>("Value")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(MAX)");
 
@@ -218,14 +218,15 @@ namespace RentCarServer.Infrastructure.Migrations
                     b.Navigation("FirstName")
                         .IsRequired();
 
-                    b.Navigation("ForgotPasswordDate");
+                    b.Navigation("ForgotPasswordCode");
 
-                    b.Navigation("ForgotPasswordId");
+                    b.Navigation("ForgotPasswordDate");
 
                     b.Navigation("FullName")
                         .IsRequired();
 
-                    b.Navigation("IsForgotPasswordComplated");
+                    b.Navigation("IsForgotPasswordComplated")
+                        .IsRequired();
 
                     b.Navigation("LastName")
                         .IsRequired();

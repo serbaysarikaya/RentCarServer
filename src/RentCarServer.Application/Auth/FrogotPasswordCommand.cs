@@ -48,7 +48,7 @@ internal sealed class FrogotPasswordCommandHandler(
 
         string body = await File.ReadAllTextAsync(templatePth,cancellationToken);
 
-        string resetPasswordUrl = $"https://localhost:4200/reset-password?code={user.ForgotPasswordId!.Value}";
+        string resetPasswordUrl = $"http://localhost:4200/reset-password/{user.ForgotPasswordCode!.Value}";
 
         body = body
               .Replace("{UserName}", user.FirstName.Value)
