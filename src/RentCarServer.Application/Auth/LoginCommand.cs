@@ -39,7 +39,7 @@ public sealed class LoginCommandHandler(
             return Result<string>.Failure("Kuallanıcı adı yadqa şifre yanlış");
         }
 
-        var token = jwtProvider.CreateToken(user);
+        var token = await jwtProvider.CreateTokenAsync(user,cancellationToken);
 
         return token;
     }

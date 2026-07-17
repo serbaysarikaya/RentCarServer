@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.RateLimiting;
 using RentCarServer.Application;
 using RentCarServer.Application.Services;
 using RentCarServer.Infrastructure;
+using RentCarServer.WebAPI.Middlewares;
 using RentCarServer.WebAPI.Modules;
 using Scalar.AspNetCore;
 using System.Threading.RateLimiting;
@@ -64,6 +65,8 @@ builder.Services.AddResponseCompression(opt =>
     opt.EnableForHttps = true;
 });
 
+builder.Services.AddTransient<CheckTokenMiddleware>();
+
 var app = builder.Build();
 app.MapOpenApi();
 app.MapScalarApiReference();
@@ -78,20 +81,17 @@ app.UseResponseCompression();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseExceptionHandler();
+app.UseMiddleware<CheckTokenMiddleware>();
 
 app.UseRateLimiter();
-app.UseExceptionHandler();
 
 app.MapControllers()
     .RequireRateLimiting("fixed")
     .RequireAuthorization();
 
 app.MapAuth();
-app.MapGet("/", async (IMailService mail) =>
-{
-    await mail.SendAsync("serbaysarikaya@gmail.com", "Test!", "<h1>Hello world!!!</h1>",default);
-    return Results.Ok();
-});
+app.MapGet("/",  () =>"Hello Middleware").RequireAuthorization();
 //await app.CreateUser();
 
 app.Run();

@@ -5,6 +5,7 @@ using RentCarServer.Domain.Abstractions;
 using RentCarServer.Domain.Users;
 using System.Security.Claims;
 using GenericRepository;
+using RentCarServer.Domain.LoginTokens;
 
 namespace RentCarServer.Infrastructure.Context
 {
@@ -14,6 +15,7 @@ namespace RentCarServer.Infrastructure.Context
         {
         }
         public DbSet<User> Users { get; set; }
+        public DbSet<LoginToken> LoginTokens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
