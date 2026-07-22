@@ -18,6 +18,8 @@ namespace RentCarServer.Domain.Users
             SetUserName(userName);
             SetPassword(password);
             SetIsForgotPasswordComplated(new(true));
+            SetTFAStatus(new(false));
+
         }
 
         public User() { }
@@ -31,6 +33,14 @@ namespace RentCarServer.Domain.Users
         public ForgotPasswordCode? ForgotPasswordCode { get; private set; }
         public ForgotPasswordDate? ForgotPasswordDate { get; private set; }
         public IsForgotPasswordComplated IsForgotPasswordComplated { get; private set; } = default!;
+
+        //2FA
+        public TFAStatus TFAStatus { get; private set; } = default!;
+        public TFACode? TFACode { get; private set; } 
+        public TFAConfirmCode? TFAConfirmCode { get; private set; } 
+        public TFAExpiresDate? TFAExpiresDate { get; private set; } 
+        public TFAIsCompleted? TFAIsCompleted { get; private set; } 
+
 
         #region Behaviors
         public bool VerifyPasswordHash(string password)
@@ -75,6 +85,31 @@ namespace RentCarServer.Domain.Users
         {
             IsForgotPasswordComplated = isForgotPasswordComplated;
         }
+
+        public void SetTFAStatus(TFAStatus tfaStatus)
+        {
+            TFAStatus = tfaStatus;
+        }
+
+        public void CreateTFACode()
+        {
+            var code = Guid.CreateVersion7().ToString();
+            var confirmCode = Guid.CreateVersion7().ToString();
+            var expires = DateTimeOffset.Now.AddMinutes(5);
+            TFACode = new(code);
+            TFAConfirmCode = new(confirmCode);
+            TFAExpiresDate = new(expires);
+            TFAIsCompleted = new(false);
+        }
+
+        public void SetTFACompleted()
+        {
+            TFAIsCompleted = new(true);
+        }
+
+
         #endregion
     }
+
+
 }

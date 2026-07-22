@@ -39,7 +39,7 @@ namespace RentCarServer.Infrastructure.Context
             HttpContextAccessor httpContextAccessor = new();
             string? userIdString =   // "97787d8e-eb72-4538-a59b-9a1e21c95965"; ilk Kayıt  olmadığı için ilk güidi manuel yap. 
                 httpContextAccessor
-                .HttpContext!
+                .HttpContext?
                 .User
                 .Claims
                 .FirstOrDefault(p => p.Type == ClaimTypes.NameIdentifier)?

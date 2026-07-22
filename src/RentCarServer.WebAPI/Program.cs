@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.RateLimiting;
 using RentCarServer.Application;
 using RentCarServer.Application.Services;
 using RentCarServer.Infrastructure;
+using RentCarServer.WebAPI;
 using RentCarServer.WebAPI.Middlewares;
 using RentCarServer.WebAPI.Modules;
 using Scalar.AspNetCore;
@@ -66,6 +67,7 @@ builder.Services.AddResponseCompression(opt =>
 });
 
 builder.Services.AddTransient<CheckTokenMiddleware>();
+builder.Services.AddHostedService<CheckLoginTokenBackgroundService>();
 
 var app = builder.Build();
 app.MapOpenApi();
@@ -82,6 +84,7 @@ app.UseResponseCompression();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseExceptionHandler();
+
 app.UseMiddleware<CheckTokenMiddleware>();
 
 app.UseRateLimiter();
